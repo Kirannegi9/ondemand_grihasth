@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+# Large backup files
+test/wp-content/ai1wm-backups/*.wpress
