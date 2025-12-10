@@ -897,7 +897,7 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                                 var variant_id = uniqid();
                                 var variant_sku = variant;
                                 var variant_price = $('#price_' + variant).val();
-                                var variant_discount = $('#discount_' + variant).val();
+                                var variant_dis_price = $('#discount_' + variant).val();
                                 var variant_quantity = $('#qty_' + variant).val();
                                 var variant_image = $('#variant_' + variant + '_url').val();
                                 // Validation for variant_price
@@ -913,7 +913,7 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                                     'variant_id': variant_id,
                                     'variant_sku': variant_sku,
                                     'variant_price': variant_price,
-                                    'variant_discount': variant_discount,
+                                    'variant_dis_price': variant_dis_price,
                                     'variant_quantity': variant_quantity,
                                     'variant_image': variant_image
                                 });
@@ -1391,7 +1391,7 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                     $.each(variants, function (index, variant) {
 
                         var variant_price = 1;
-                        var variant_discount = 0;
+                        var variant_dis_price = 0;
                         var variant_qty = 1;
                         var variant_image = variant_image_url = '';
                         if (item_attributeX) {
@@ -1402,7 +1402,7 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                             });
                             if (variant_info[0]) {
                                 variant_price = variant_info[0].variant_price;
-                                variant_discount = variant_info[0].variant_discount || 0;
+                                variant_dis_price = variant_info[0].variant_dis_price || 0;
                                 variant_qty = variant_info[0].variant_quantity;
                                 if (variant_info[0].variant_image) {
                                     variant_image = '<img class="rounded" style="width:50px" src="' + variant_info[0].variant_image + '" alt="image" onerror="this.onerror=null;this.src=\'' + placeholderImage + '\'"><i class="mdi mdi-delete" data-variant="' + variant + '"></i>';
@@ -1417,7 +1417,7 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                         html += '<input type="number" id="price_' + variant + '" value="' + variant_price + '" min="0" class="form-control">';
                         html += '</td>';
                         html += '<td>';
-                        html += '<input type="number" id="discount_' + variant + '" value="' + variant_discount + '" min="0" class="form-control" placeholder="0">';
+                        html += '<input type="number" id="discount_' + variant + '" value="' + variant_dis_price + '" min="0" class="form-control" placeholder="0">';
                         html += '</td>';
                         html += '<td>';
                         html += '<input type="number" id="qty_' + variant + '" value="' + variant_qty + '" min="-1" class="form-control">';
