@@ -25150,7 +25150,7 @@ Diff.prototype = {
     var maxExecutionTime = (_options$timeout = options.timeout) !== null && _options$timeout !== void 0 ? _options$timeout : Infinity;
     var abortAfterTimestamp = Date.now() + maxExecutionTime;
     var bestPath = [{
-      oldPos: -1,
+      oldPos: -1, 
       lastComponent: undefined
     }]; // Seed editLength = 0, i.e. the content starts with the same values
 

@@ -3,17 +3,20 @@
 @include('layouts.header')
 
 @php
-
-    $cityToCountry = file_get_contents(asset('tz-cities-to-countries.json'));
-
-    $cityToCountry = json_decode($cityToCountry, true);
-
     $countriesJs = [];
+    $tzFile = public_path('tz-cities-to-countries.json');
 
-    foreach ($cityToCountry as $key => $value) {
-        $countriesJs[$key] = $value;
+    if (file_exists($tzFile) && is_readable($tzFile)) {
+        $cityToCountry = file_get_contents($tzFile);
+        $cityToCountry = json_decode($cityToCountry, true) ?? [];
+        foreach ($cityToCountry as $key => $value) {
+            $countriesJs[$key] = $value;
+        }
+    } else {
+        // fallback to empty array to avoid errors during rendering
+        $cityToCountry = [];
+        $countriesJs = [];
     }
-
 @endphp
 
 <div class="siddhi-checkout">
@@ -3270,4 +3273,56 @@
                 $('#scheduled-order-notification').show();
             }
         });
+
+
+       
+function getPriceFromDom(domId) {
+    var variantInfoVal = $("#variant_info_" + domId).val();
+    if (variantInfoVal) {
+        try {
+            var variant = JSON.parse(atob(variantInfoVal));
+
+            if (variant.variant_dis_price && variant.variant_dis_price !== '' && variant.variant_dis_price !== '0') {
+                return parseFloat(variant.variant_dis_price);
+            }
+            if (variant.variant_price) {
+                return parseFloat(variant.variant_price);
+            }
+
+        } catch (e) {
+            console.warn("Invalid variant_info for:", domId, e);
+        }
+    }
+
+    var ip = $("#item_price_" + domId).val();
+    if (ip) return parseFloat(ip);
+
+    var dp = $("#dis_price_" + domId).val();
+    if (dp) return parseFloat(dp);
+
+    var p = $("#price_" + domId).val();
+    if (p) return parseFloat(p);
+
+    return null;
+}
+
+function updateCartPrices() {
+    $(".product-item").each(function() {
+        var domId = $(this).attr("data-id");
+        var price = getPriceFromDom(domId);
+
+        if (price !== null) {
+            var display = $(this).find(".display-price");
+            if (display.length) {
+                display.text(price.toFixed(2));
+            }
+        }
+    });
+}
+
+$(document).ready(function(){
+    updateCartPrices();
+});
+
+
     </script>
