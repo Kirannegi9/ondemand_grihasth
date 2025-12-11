@@ -313,16 +313,12 @@
 
                                         </div>
 
-                                        <div class="form-group row">
+                                        
 
-                                            <div class="col-9">
-
-                                                <h6>{{ trans('lang.cordinates') }} <a target="_blank" href="https://www.latlong.net/"></a>{{ trans('lang.lat_long') }}
-
-                                                </h6>
-
+                                        <div class="form-group row width-100">
+                                            <div class="col-12">
+                                                <h6>{{ trans('lang.know_your_cordinates') }} <a target="_blank" href="https://www.latlong.net/">{{ trans('lang.latitude_and_longitude_finder') }}</a></h6>
                                             </div>
-
                                         </div>
 
                                         <div class="form-group row">

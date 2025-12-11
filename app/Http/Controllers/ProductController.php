@@ -625,33 +625,13 @@ class ProductController extends Controller
         $dist = acos($dist);
         $dist = rad2deg($dist);
         $miles = $dist * 60 * 1.1515;
-        $unit = strtoupper($unit);
-        
-        if ($unit == "KM") {
+        Session::put('cart', $cart);
+        Session::save();
+        if (@$req['deliveryCharge']) {
           
             return ($miles * 1.609344);
         }  else {
             return $miles;
-        }
-    }
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function reorderaddToCart(Request $request)
-    {
-        $req = $request->all();
-        $vendor_id = $req['vendor_id'];
-        $cart = Session::get('cart', []);
-        $cart['item'] = array();
-        Session::put('cart', $cart);
-        Session::save();
-        if (@$req['deliveryCharge']) {
-            $cart['deliverychargemain'] = $req['deliveryCharge'];
-        } else {
-            $cart['deliverychargemain'] = 0;
         }
         if (Session::get('takeawayOption') == "true") {
             $req['delivery_option'] = "takeaway";

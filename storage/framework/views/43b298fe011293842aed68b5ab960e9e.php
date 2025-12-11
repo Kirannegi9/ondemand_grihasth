@@ -2,7 +2,7 @@
 session_start();
 if (@$order_complete) { ?>
 <div class="d-flex siddhi-cart-item-profile bg-white p-3">
-    <p>{{trans('lang.your_order_placed_successfully')}}</p>
+    <p><?php echo e(trans('lang.your_order_placed_successfully')); ?></p>
 </div>
 <?php } ?>
 <?php $item_count = 0;
@@ -12,10 +12,10 @@ if (@$cart['item']) {
 foreach ($cart['item'] as $key => $value_vendor) {
     $item_count++; ?>
 <div class="sidebar-header p-3">
-    <h3 class="font-weight-bold h6 w-100">{{trans('lang.cart')}}</h3>
+    <h3 class="font-weight-bold h6 w-100"><?php echo e(trans('lang.cart')); ?></h3>
 </div>
 <div class="bg-white p-3 sidebar-item-list">
-    <h6 class="pb-3">{{trans('lang.item')}}</h6>
+    <h6 class="pb-3"><?php echo e(trans('lang.item')); ?></h6>
     <input type="hidden" name="main_vendor_id" value="<?php echo @$key; ?>" id="main_vendor_id">
         <?php foreach ($value_vendor as $key1 => $value_item) { ?>
     <div class="product-item gold-members row align-items-center py-2 border mb-2 rounded-lg m-0"
@@ -71,7 +71,7 @@ foreach ($cart['item'] as $key => $value_vendor) {
                 </p>
                     <?php if (@$value_item['extra']) { ?>
                 <div class="extras">
-                    <span>{{trans('lang.extra')}}</span>
+                    <span><?php echo e(trans('lang.extra')); ?></span>
                         <?php if (@is_array($value_item['extra'])) {
                     foreach ($value_item['extra'] as $key3 => $extra) { ?>
                     <input type="hidden" class="extras_<?php echo @$key1; ?>"
@@ -85,7 +85,7 @@ foreach ($cart['item'] as $key => $value_vendor) {
                        value="<?php echo @$value_item['extra_price']; ?>">
                     <?php if (@$value_item['size']) { ?>
                 <div class="size">
-                    <span>{{trans('lang.size')}}</span>
+                    <span><?php echo e(trans('lang.size')); ?></span>
                     <p><?php echo $value_item['size']; ?></p>
                 </div>
                 <?php } ?>
@@ -102,10 +102,10 @@ foreach ($cart['item'] as $key => $value_vendor) {
                                                             $varient_qty = $value_item['variant_info']['variant_qty'];
                                                             ?>
                                                         data-vqty="<?php echo $varient_qty; ?>"
-                                                        data-vqtymsg="{{trans('lang.invalid_stock_qty')}}"
+                                                        data-vqtymsg="<?php echo e(trans('lang.invalid_stock_qty')); ?>"
                                                         <?php } else { ?>
                                                         data-vqty="<?php echo $value_item['stock_quantity']; ?>"
-                                                        data-vqtymsg="{{trans('lang.invalid_stock_qty')}}"
+                                                        data-vqtymsg="<?php echo e(trans('lang.invalid_stock_qty')); ?>"
                                                         <?php } ?>
                                                         class="count-number-input-cart btn-sm left dec btn btn-outline-secondary">
 													<i class="feather-minus"></i>
@@ -119,10 +119,10 @@ foreach ($cart['item'] as $key => $value_vendor) {
                                                             $varient_qty = $value_item['variant_info']['variant_qty'];
                                                             ?>
                                                         data-vqty="<?php echo $varient_qty; ?>"
-                                                        data-vqtymsg="{{trans('lang.invalid_stock_qty')}}"
+                                                        data-vqtymsg="<?php echo e(trans('lang.invalid_stock_qty')); ?>"
                                                         <?php } else { ?>
                                                         data-vqty="<?php echo $value_item['stock_quantity']; ?>"
-                                                        data-vqtymsg="{{trans('lang.invalid_stock_qty')}}"
+                                                        data-vqtymsg="<?php echo e(trans('lang.invalid_stock_qty')); ?>"
                                                         <?php } ?>
                                                         class="count-number-input-cart btn-sm right inc btn btn-outline-secondary count_number_right">
 													<i class="feather-plus"></i>
@@ -195,13 +195,14 @@ foreach ($cart['item'] as $key => $value_vendor) {
 <div class="bg-white px-3 clearfix">
     <div class="border-bottom pb-3">
         <div class="input-group-sm mb-2 input-group">
-            <input placeholder="{{trans('lang.promo_help')}}" data-vendor="<?php echo @$key1; ?>"
+            <input placeholder="<?php echo e(trans('lang.promo_help')); ?>" data-vendor="<?php echo @$key1; ?>"
                    data-vendor-id="<?php echo @$cart['vendor']['id'] ?>"
                    value="<?php echo @$cart['coupon']['coupon_code'] ?>" id="coupon_code" type="text"
                    class="form-control">
             <div class="input-group-append">
                 <button type="button" class="btn btn-primary" id="apply-coupon-code">
-                    <i class="feather-percent"></i> {{trans('lang.apply')}}
+                    <i class="feather-percent"></i> <?php echo e(trans('lang.apply')); ?>
+
                 </button>
             </div>
         </div>
@@ -210,7 +211,7 @@ foreach ($cart['item'] as $key => $value_vendor) {
     <?php if (@$_COOKIE['service_type'] == "Multivendor Delivery Service"){ ?>
 <div class="bg-white px-3 clearfix schedule-order pt-3">
     <div class="border-bottom pb-3">
-        <h3>{{trans('lang.schedule_order')}}</h3>
+        <h3><?php echo e(trans('lang.schedule_order')); ?></h3>
         <span class="text-dark">
          <input type="datetime-local" id="scheduleTime" name="scheduleTime" value="<?php if (@$cart['scheduleTime']) {
              echo $cart['scheduleTime'];
@@ -223,7 +224,7 @@ foreach ($cart['item'] as $key => $value_vendor) {
 <?php if ($item_count == 0) { ?>
 <div class="bg-white border-bottom py-2">
     <div class="gold-members d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
-        <span>{{trans('lang.your_cart_is_empty')}}</span>
+        <span><?php echo e(trans('lang.your_cart_is_empty')); ?></span>
     </div>
 </div>
 <?php } ?>
@@ -235,7 +236,7 @@ if (@$cart['tip_amount']) {
 }
 ?>
 <div class="bg-white p-3 clearfix delivery-box">
-    <h3>{{trans('lang.delivery_option')}}</h3>
+    <h3><?php echo e(trans('lang.delivery_option')); ?></h3>
     <div class="delevery-option">
         <?php $delivery_option = '';
         if (@$cart['delivery_option']) {
@@ -253,7 +254,7 @@ if (@$cart['tip_amount']) {
         <input type="hidden" name="delivery_option" value="<?php echo $delivery_option; ?>">
         <?php if ($delivery_option == "takeaway") { ?>
         <label class="custom-control-labels"
-               for="takeaway">{{trans('lang.take_away')}}({{trans('lang.free')}})</label>
+               for="takeaway"><?php echo e(trans('lang.take_away')); ?>(<?php echo e(trans('lang.free')); ?>)</label>
         <?php } else { ?>
         <label class="custom-control-labels" for="takeaway">Delivery
                 <?php if (@$cart['deliverychargemain']) { ?> (<span class="currency-symbol-left"></span>
@@ -273,8 +274,8 @@ if (@$cart['tip_amount']) {
 <div class="bg-white px-3 clearfix delevery-partner"
      style="<?php if (@$cart['delivery_option'] == "takeaway") { ?> display:none; <?php } ?>">
     <div class="border-bottom py-3">
-        <h3>{{trans('lang.tip_your_delivery_partner')}}</h3>
-        <span class="float-center">100% of the {{trans('lang.tip_go_to_your_delivery_partner')}}</span>
+        <h3><?php echo e(trans('lang.tip_your_delivery_partner')); ?></h3>
+        <span class="float-center">100% of the <?php echo e(trans('lang.tip_go_to_your_delivery_partner')); ?></span>
         <div class="tip-box">
             <div class="custom-control custom-radio border-bottom py-2">
                 <input type="radio" name="tip" id="10" value="10" class="this_tip custom-control-input
@@ -306,7 +307,7 @@ if (@$cart['tip_amount']) {
             <div class="custom-control custom-radio border-bottom py-2">
                 <input type="radio" name="tip" id="Other_tip" value="Other" class="custom-control-input"
                        <?php if ($tip_amount && (@$tip_amount != 10 && @$tip_amount != 20 && @$tip_amount != 30)) { ?> checked <?php } ?>>
-                <label class="custom-control-label" for="Other_tip">{{trans('lang.other')}}</label>
+                <label class="custom-control-label" for="Other_tip"><?php echo e(trans('lang.other')); ?></label>
             </div>
             <div class="custom-control custom-radio border-bottom py-2" style="display: none;" id="add_tip_box">
                 <input type="number" onchange="tipAmountChange()" name="tip_amount" id="tip_amount"
@@ -317,7 +318,8 @@ if (@$cart['tip_amount']) {
 </div>
 <div class="bg-white p-3 clearfix btm-total">
     <p class="mb-2">
-        {{trans('lang.sub_total')}}
+        <?php echo e(trans('lang.sub_total')); ?>
+
         <span class="float-right text-dark">
         	<span class="currency-symbol-left"></span>
         	<?php
@@ -363,7 +365,7 @@ if (@$cart['tip_amount']) {
                 }
             }
             ?>
-        {{trans('lang.total')}} {{trans('lang.discount')}} <span class="float-right text-success"><span
+        <?php echo e(trans('lang.total')); ?> <?php echo e(trans('lang.discount')); ?> <span class="float-right text-success"><span
                     class="currency-symbol-left"></span><?php
                                                             $digit_decimal = 0;
                                                             if (@$cart['decimal_degits']) {
@@ -408,7 +410,7 @@ if (@$cart['tip_amount']) {
                 $special_html = "(" . $specialOfferDiscountVal . "%)";
             }
             ?>
-        {{trans('lang.special')}} {{trans('lang.offer')}} {{trans('lang.discount')}} <?php echo $special_html; ?>
+        <?php echo e(trans('lang.special')); ?> <?php echo e(trans('lang.offer')); ?> <?php echo e(trans('lang.discount')); ?> <?php echo $special_html; ?>
         <span
                 class="float-right text-success"><span
                     class="currency-symbol-left"></span><?php
@@ -469,7 +471,7 @@ if (@$cart['tip_amount']) {
     <?php if ($item_count && $total_price && @$cart['deliverycharge']) { ?>
         <?php $total = $total + $cart['deliverycharge']; ?>
     <p class="mb-2">
-        {{trans('lang.deliveryCharge')}} <span class="float-right text-dark"><span
+        <?php echo e(trans('lang.deliveryCharge')); ?> <span class="float-right text-dark"><span
                     class="currency-symbol-left"></span><?php
                     $digit_decimal = 0;
                     if (@$cart['decimal_degits']) {
@@ -483,7 +485,7 @@ if (@$cart['tip_amount']) {
     <?php if ($item_count && $tip_amount) {
         $total = $total + $tip_amount; ?>
     <p class="mb-2">
-        {{trans('lang.tip_amount')}} <span class="float-right text-dark"><span
+        <?php echo e(trans('lang.tip_amount')); ?> <span class="float-right text-dark"><span
                     class="currency-symbol-left"></span><?php
                                                             $digit_decimal = 0;
                                                             if (@$cart['decimal_degits']) {
@@ -501,7 +503,8 @@ if (@$cart['tip_amount']) {
     <input type="hidden" id="adminCommissionType" value="Fix Price">
     <input type="hidden" id="total_pay" value="<?php echo round($total, 2); ?>">
     <hr>
-    <h6 class="font-weight-bold mb-0">{{trans('lang.total')}}
+    <h6 class="font-weight-bold mb-0"><?php echo e(trans('lang.total')); ?>
+
         <p class="float-right">
             <span class="currency-symbol-left"></span>
             <span>
@@ -520,17 +523,17 @@ if (@$cart['tip_amount']) {
 <div class="p-3">
     <?php
     if ($item_count == 0) { ?>
-    <a class="btn btn-primary btn-block btn-lg disable" href="javascript:void(0)">{{trans('lang.pay')}} <span
+    <a class="btn btn-primary btn-block btn-lg disable" href="javascript:void(0)"><?php echo e(trans('lang.pay')); ?> <span
                 class="currency-symbol-left"></span><?php echo $total; ?><span class="currency-symbol-right"></span><i
                 class="feather-arrow-right"></i></a>
     <?php } else if (@$is_checkout && $total_item_price > 0) { ?>
     <a class="btn btn-primary btn-block btn-lg" href="javascript:void(0)"
-       onclick="finalCheckout()">{{trans('lang.pay')}} <span
+       onclick="finalCheckout()"><?php echo e(trans('lang.pay')); ?> <span
                 class="currency-symbol-left"></span><?php echo $total; ?>
         <span class="currency-symbol-right"></span><i class="feather-arrow-right"></i></a>
     <?php } else { ?>
-    <a class="btn btn-primary btn-block btn-lg" href="{{route('checkout')}}">{{trans('lang.pay')}} <span
+    <a class="btn btn-primary btn-block btn-lg" href="<?php echo e(route('checkout')); ?>"><?php echo e(trans('lang.pay')); ?> <span
                 class="currency-symbol-left"></span><?php echo $total; ?><span class="currency-symbol-right"></span><i
                 class="feather-arrow-right"></i></a>
     <?php } ?>
-</div>
+</div><?php /**PATH E:\ondemand_grihasth-master\ondemand_grihasth-master\resources\views/vendor/cart_item.blade.php ENDPATH**/ ?>

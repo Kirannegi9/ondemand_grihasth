@@ -121,13 +121,10 @@ class CheckoutController extends Controller
                         $kmradius = $this->distance($address_lat, $address_lng, $vendor_latitude, $vendor_longitude, $distanceType);
 
                         if ($minimum_delivery_charges_within_km > $kmradius) {
-
-                            $cart['deliverychargemain'] = $minimum_delivery_charges;
-
-                        } else {
-
-                            $cart['deliverychargemain'] = round(($kmradius * $delivery_charges_per_km), 2);
-
+                            $cart['deliverychargemain'] = max($minimum_delivery_charges, 50);  // ₹100 within first km
+                        } 
+                        else {
+                            $cart['deliverychargemain'] = max(round(($kmradius * $delivery_charges_per_km), 2), 50);  // ₹100 per km beyond first km
                         }
 
                         $cart['deliverykm'] = $kmradius;
@@ -166,26 +163,28 @@ class CheckoutController extends Controller
 
     {
 
-        $theta = $lon1 - $lon2;
-
-        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-
-        $dist = acos($dist);
-
-        $dist = rad2deg($dist);
-
-        $miles = $dist * 60 * 1.1515;
-
+        // Calculate distance using Haversine formula
+        $earthRadius = 6371; // Earth's radius in kilometers
+        
+        $latFrom = deg2rad($lat1);
+        $lonFrom = deg2rad($lon1);
+        $latTo = deg2rad($lat2);
+        $lonTo = deg2rad($lon2);
+        
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+        
+        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + 
+            cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+        
+        $distance = $angle * $earthRadius;
+        
         $unit = strtoupper($unit);
-
+        
         if ($unit == "KM") {
-
-            return ($miles * 1.609344);
-
-        }  else {
-
-            return $miles;
-
+            return round($distance, 2); // Return distance in kilometers
+        } else {
+            return round($distance * 0.621371, 2); // Convert to miles
         }
 
     }

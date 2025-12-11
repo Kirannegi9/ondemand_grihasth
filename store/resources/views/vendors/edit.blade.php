@@ -61,22 +61,17 @@
       			</div>
       
 
-      			<div class="form-group row">
-        			<label class="col-3 control-label">{{trans('lang.vendor_latitude')}}</label>
-        			<div class="col-9">
-        				<input type="text" class="form-control vendor_latitude">
-        				<div class="form-text text-muted">
-                  			{{ trans("lang.vendor_latitude_help") }}
+      			<div class="form-group row 		e=abel">{{taols"u"p") }}
         				</div>
       				</div>
 
       			</div>
 
-      			<div class="form-group row">
-        			<label class="col-3 control-label">{{trans('lang.vendor_longitude')}}</label>
-        			<div class="col-9">
-        				<input type="text" class="form-control vendor_longitude">
-        				<div class="form-text text-muted">
+      			  <div class="form-group row">
+          			<label class="col-3 control-label">{{trans('lang.vendor_  longitude')}}</label>
+        			<div class="9">
+        				<i	nput type="text" class="form-control vendor  _longitude">
+        					<div class="for	m-text text-muted">
                   			{{ trans("lang.vendor_longitude_help") }}
         				</div>
       				</div>
