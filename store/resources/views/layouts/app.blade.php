@@ -630,20 +630,21 @@
 
             var url = "{{ route('changeLang') }}";
 
-            $(".changeLang").change(function() {
-                var slug = $(this).val();
-                languages_list_main.forEach((data) => {
-                    if (slug == data.slug) {
-                        if (data.is_rtl == undefined) {
-                            setCookie('is_rtl', 'false', 365);
-                        } else {
-
-                            setCookie('is_rtl', data.is_rtl.toString(), 365);
-                        }
-                        window.location.href = url + "?lang=" + slug;
-                    }
-                });
-            });
+           $(".changeLang").change(function() {
+    var slug = $(this).val();
+    // Set RTL cookie if needed (existing logic)
+    languages_list_main.forEach((data) => {
+        if (slug == data.slug) {
+            if (data.is_rtl == undefined) {
+                setCookie('is_rtl', 'false', 365);
+            } else {
+                setCookie('is_rtl', data.is_rtl.toString(), 365);
+            }
+        }
+    });
+    // Redirect to backend route to change language
+    window.location.href = "/lang/change?lang=" + slug;
+});
 
             function setCookie(cname, cvalue, exdays) {
                 const d = new Date();
