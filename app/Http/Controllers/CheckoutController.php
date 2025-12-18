@@ -13,6 +13,9 @@ use App\Models\VendorUsers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+
 
 use Razorpay\Api\Api;
 
@@ -71,84 +74,137 @@ class CheckoutController extends Controller
      */
 
     public function checkout()
+{
+    Log::info('Checkout started');
 
-    {
+    $email = Auth::user()->email;
+    Log::info('Authenticated user email', ['email' => $email]);
 
-        $email = Auth::user()->email;
+    $user = VendorUsers::where('email', $email)->first();
+    Log::info('Vendor user fetched', ['user' => $user]);
 
-        $user = VendorUsers::where('email', $email)->first();
+    $cart = Session::get('cart', []);
+    Log::info('Cart from session', $cart);
 
-        $cart = Session::get('cart', []);
+    if (Session::get('takeawayOption') == "true") {
 
-        if (Session::get('takeawayOption') == "true") {
+        Log::info('Takeaway option selected, skipping delivery calculation');
+
+    } else {
+
+        Log::info('Delivery checkout started');
+
+        $deliveryChargemain = @$_COOKIE['deliveryChargemain'];
+        $address_lat = @$_COOKIE['address_lat'];
+        $address_lng = @$_COOKIE['address_lng'];
+        $vendor_latitude = @$_COOKIE['vendor_latitude'];
+        $vendor_longitude = @$_COOKIE['vendor_longitude'];
+
+        Log::info('Cookie values', [
+            'deliveryChargemain' => $deliveryChargemain,
+            'address_lat' => $address_lat,
+            'address_lng' => $address_lng,
+            'vendor_latitude' => $vendor_latitude,
+            'vendor_longitude' => $vendor_longitude,
+            'service_type' => $_COOKIE['service_type'] ?? null
+        ]);
+
+        if (
+            isset($_COOKIE['service_type']) &&
+            $_COOKIE['service_type'] == "Ecommerce Service" &&
+            isset($_COOKIE['ecommerce_delivery_charge'])
+        ) {
+
+            Log::info('Ecommerce service detected');
+
+            $cart['deliverychargemain'] = $_COOKIE['ecommerce_delivery_charge'];
+            $cart['deliverykm'] = '';
 
         } else {
 
-            $deliveryChargemain = @$_COOKIE['deliveryChargemain'];
+            if ($deliveryChargemain && $address_lat && $address_lng && $vendor_latitude && $vendor_longitude) {
 
-            $address_lat = @$_COOKIE['address_lat'];
+                $deliveryChargemain = json_decode($deliveryChargemain);
 
-            $address_lng = @$_COOKIE['address_lng'];
+                Log::info('Decoded delivery charge config', (array)$deliveryChargemain);
 
-            $vendor_latitude = @$_COOKIE['vendor_latitude'];
+                if (!empty($deliveryChargemain)) {
 
-            $vendor_longitude = @$_COOKIE['vendor_longitude'];
+                    $distanceType = !empty($cart['distanceType']) ? $cart['distanceType'] : 'Km';
 
-            if (isset($_COOKIE['service_type']) && $_COOKIE['service_type'] == "Ecommerce Service" && isset($_COOKIE['ecommerce_delivery_charge'])) {
+                    $delivery_charges_per_km = $deliveryChargemain->delivery_charges_per_km;
+                    $minimum_delivery_charges = $deliveryChargemain->minimum_delivery_charges;
+                    $minimum_delivery_charges_within_km = $deliveryChargemain->minimum_delivery_charges_within_km;
 
-                $cart['deliverychargemain'] = $_COOKIE['ecommerce_delivery_charge'];
+                    Log::info('Delivery charge settings', [
+                        'per_km' => $delivery_charges_per_km,
+                        'min_charge' => $minimum_delivery_charges,
+                        'min_within_km' => $minimum_delivery_charges_within_km,
+                        'distance_type' => $distanceType
+                    ]);
 
-                $cart['deliverykm'] = '';
+                    $kmradius = $this->distance(
+                        $address_lat,
+                        $address_lng,
+                        $vendor_latitude,
+                        $vendor_longitude,
+                        $distanceType
+                    );
 
-            } else {
+                    Log::info('Calculated distance', ['distance_km' => $kmradius]);
 
-                if (@$deliveryChargemain && @$address_lat && @$address_lng && @$vendor_latitude && @$vendor_longitude) {
+                    // 🔴 OPTIONAL: 30 KM LIMIT ENFORCEMENT (RECOMMENDED)
+                    if ($kmradius > 30) {
+                        Log::warning('Order blocked: distance exceeds 30 KM', [
+                            'distance' => $kmradius,
+                            'user_id' => Auth::id(),
+                            'vendor_lat' => $vendor_latitude,
+                            'vendor_lng' => $vendor_longitude,
+                            'address_lat' => $address_lat,
+                            'address_lng' => $address_lng,
+                        ]);
 
-                    $deliveryChargemain = json_decode($deliveryChargemain);
-
-                    if (!empty($deliveryChargemain)) {
-                        if (! empty($cart['distanceType'])) {
-                            $distanceType = $cart['distanceType'];
-                        } else {
-                            $distanceType = 'Km';
-                        }
-                        $delivery_charges_per_km = $deliveryChargemain->delivery_charges_per_km;
-
-                        $minimum_delivery_charges = $deliveryChargemain->minimum_delivery_charges;
-
-                        $minimum_delivery_charges_within_km = $deliveryChargemain->minimum_delivery_charges_within_km;
-
-                        $kmradius = $this->distance($address_lat, $address_lng, $vendor_latitude, $vendor_longitude, $distanceType);
-
-                        if ($minimum_delivery_charges_within_km > $kmradius) {
-
-                            $cart['deliverychargemain'] = $minimum_delivery_charges;
-
-                        } else {
-
-                            $cart['deliverychargemain'] = round(($kmradius * $delivery_charges_per_km), 2);
-
-                        }
-
-                        $cart['deliverykm'] = $kmradius;
-
+                  
+                            return redirect()
+                                ->route('set-location')
+                                ->with('error', 'Delivery is available only within 30 KM of the store.');
                     }
 
+                    if ($minimum_delivery_charges_within_km > $kmradius) {
+                        $cart['deliverychargemain'] = $minimum_delivery_charges;
+                        Log::info('Applied minimum delivery charge');
+                    } else {
+                        $cart['deliverychargemain'] = round($kmradius * $delivery_charges_per_km, 2);
+                        Log::info('Applied per KM delivery charge');
+                    }
+
+                    $cart['deliverykm'] = $kmradius;
                 }
-
             }
-
-            $cart['deliverycharge'] = @$cart['deliverychargemain'];
-
-            Session::put('cart', $cart);
-
-            Session::save();
-
         }
 
-        return view('checkout.checkout', ['is_checkout' => 1, 'cart' => $cart, 'id' => $user->uuid]);
+        $cart['deliverycharge'] = $cart['deliverychargemain'] ?? 0;
 
+        Log::info('Final delivery charges', [
+            'delivery_charge' => $cart['deliverycharge'],
+            'delivery_km' => $cart['deliverykm'] ?? null
+        ]);
+
+        Session::put('cart', $cart);
+        Session::save();
+
+        Log::info('Cart saved to session');
     }
+
+    Log::info('Checkout view returned');
+
+    return view('checkout.checkout', [
+        'is_checkout' => 1,
+        'cart' => $cart,
+        'id' => $user->uuid
+    ]);
+}
+
 
 
 

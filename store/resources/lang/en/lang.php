@@ -147,6 +147,7 @@ return [
     'name' => "Name",
     'next' => "Next",
     'non_veg' => "Non-veg",
+    'pure_veg' => "Pure veg",
     'new_password' => "New Password",
     //---------------------------------------OOOO---------------------------------------
     'order_accepted' => "Order Accepted",

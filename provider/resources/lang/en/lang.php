@@ -158,7 +158,7 @@ return [
     //---------------------------------------NNNN---------------------------------------
     'name' => "Name",
     'next' => "Next",
-    'non_veg' => "Non-veg",
+
     'new_password' => "New Password",
     //---------------------------------------OOOO---------------------------------------
     'order_accepted' => "Order Accepted",
@@ -548,6 +548,15 @@ return [
     'hourly'=>'Hourly',
     'fixed'=>'Fixed',
     'Days'=>'Days',
+    'unit'=>'Unit',
+    'sq.ft'=>'Sq.ft',
+    'item'=>'Item',
+    'project'=>'Project',
+    'trip'=>'Trip',
+    'month'=>'Month',
+    'year'=>'Year',
+    'point'=>'Point',
+    'day'=>'Day',
     'saturday'=>'Saturday',
     'start_Time'=>'Start Time',
     'end_Time'=>'End Time',

@@ -568,6 +568,8 @@ return [
 
     'non_veg' => "Non-veg",
 
+    'pure_veg' => "Pure veg",
+
     'notification' => "Notification",
 
     'notifications' => "Notifications",
