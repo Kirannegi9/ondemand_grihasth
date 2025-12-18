@@ -301,7 +301,11 @@
             var delivery_option = $('input[name="delivery_option"]').val();
             var name = $('input[name="name_' + id + '"]').val();
             var veg = $('input[name="veg_' + id + '"]').val();
+<<<<<<< HEAD
            // price = price * quantity;
+=======
+            price = price * quantity;
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
             var image = $('input[name="image_' + id + '"]').val();
             var extra_price = 0;
             $('input:checkbox.extra_' + id).each(function () {

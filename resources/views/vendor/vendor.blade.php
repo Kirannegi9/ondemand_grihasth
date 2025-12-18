@@ -647,9 +647,15 @@
         // Check if product detail is enabled for veg/non-veg badges
         if (product.hasOwnProperty('nonveg')) {
             if (product.nonveg == true) {
+<<<<<<< HEAD
                 html += '<div class="member-plan position-absolute"><span class="badge badge-danger"></span></div>';
             } else {
                 html += '<div class="member-plan position-absolute"><span class="badge badge-success"></span></div>';
+=======
+                html += '<div class="member-plan position-absolute"><span class="badge badge-danger">non veg</span></div>';
+            } else {
+                html += '<div class="member-plan position-absolute"><span class="badge badge-success">Pure veg</span></div>';
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
             }
         }
         

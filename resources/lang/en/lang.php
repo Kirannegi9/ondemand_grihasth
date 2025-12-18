@@ -61,7 +61,10 @@ return [
     'new_password' => "New Password",
     'next' => "Next",
     'non_veg' => "Non-veg",
+<<<<<<< HEAD
     'pure_veg' => "Pure veg",
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
     'old_password' => "Old Password",
     'old_password_help' => 'Insert your old password',
     'order_accepted' => "Order Accepted",

@@ -6,7 +6,11 @@ use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CmsController;
 use App\Http\Controllers\ContactUsController;
+<<<<<<< HEAD
 use App\Http\Controllers\DiveinVendorController; 
+=======
+use App\Http\Controllers\DiveinVendorController;
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;

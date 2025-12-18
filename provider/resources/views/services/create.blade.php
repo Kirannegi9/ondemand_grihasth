@@ -99,6 +99,7 @@
                                 <select id='price_unit' name="price_unit" class="form-control" required>
                                     <option value="Hourly">{{trans('lang.hourly')}}</option>
                                     <option value="Fixed">{{trans('lang.fixed')}}</option>
+<<<<<<< HEAD
                                     <option value="unit">{{trans('lang.unit')}}</option>
                                     <option value="sq.ft">{{trans('lang.sq.ft')}}</option>
                                     <option value="item">{{trans('lang.item')}}</option>
@@ -108,6 +109,8 @@
                                     <option value="year">{{trans('lang.year')}}</option>
                                     <option value="point">{{trans('lang.point')}}</option>
                                     <option value="day">{{trans('lang.day')}}</option>
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                                 </select>
 
                             </div>

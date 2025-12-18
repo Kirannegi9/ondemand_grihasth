@@ -77,12 +77,16 @@ class ProductController extends Controller
             Session::put('cart', $cart);
             Session::save();
         }
+<<<<<<< HEAD
         // Get address and pickup location coordinates from cookies/request
         // Delivery charge should be based on pickup location to delivery location, NOT vendor location
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
         $cart['vendor_latitude'] = $req['vendor_latitude'];
         $cart['vendor_longitude'] = $req['vendor_longitude'];
         $cart['distanceType'] = $req['distanceType'];
         $deliveryChargemain = @$_COOKIE['deliveryChargemain'];
+<<<<<<< HEAD
         $address_lat = @$_COOKIE['address_lat'];  // Delivery address (destination)
         $address_lng = @$_COOKIE['address_lng'];   // Delivery address (destination)
         
@@ -155,6 +159,28 @@ class ProductController extends Controller
                     // CRITICAL: Calculate distance from PICKUP location to DELIVERY address (NOT vendor location)
                     // This ensures same delivery charge for all vendors delivering to the same address
                     $kmradius = $this->distance($pickup_latitude, $pickup_longitude, $address_lat, $address_lng, $distanceType);
+=======
+        $address_lat = @$_COOKIE['address_lat'];
+        $address_lng = @$_COOKIE['address_lng'];
+        $vendor_latitude = @$_COOKIE['vendor_latitude'];
+        $vendor_longitude = @$_COOKIE['vendor_longitude'];
+        if (isset($_COOKIE['service_type']) && $_COOKIE['service_type'] == "Ecommerce Service" && isset($_COOKIE['ecommerce_delivery_charge'])) {
+            $cart['deliverychargemain'] = @$_COOKIE['ecommerce_delivery_charge'];
+            $cart['deliverykm'] = '';
+        } else {
+            if (@$deliveryChargemain && @$address_lat && @$address_lng && @$vendor_latitude && @$vendor_longitude) {
+                $deliveryChargemain = json_decode($deliveryChargemain);
+                if (!empty($deliveryChargemain)) {
+                    if (! empty($req['distanceType'])) {
+                        $distanceType = $req['distanceType'];
+                    }else{
+                        $distanceType = 'km';
+                    }
+                    $delivery_charges_per_km = $deliveryChargemain->delivery_charges_per_km;
+                    $minimum_delivery_charges = $deliveryChargemain->minimum_delivery_charges;
+                    $minimum_delivery_charges_within_km = $deliveryChargemain->minimum_delivery_charges_within_km;
+                    $kmradius = $this->distance($address_lat, $address_lng, $vendor_latitude, $vendor_longitude, $distanceType);
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                     if ($minimum_delivery_charges_within_km > $kmradius) {
                         $cart['deliverychargemain'] = $minimum_delivery_charges;
                     } else {
@@ -162,6 +188,7 @@ class ProductController extends Controller
                     }
                     $cart['deliverykm'] = $kmradius;
                 }
+<<<<<<< HEAD
             } else {
                 // If pickup location is not available, set delivery charge to 0 or minimum
                 // This prevents incorrect calculation based on vendor location
@@ -195,18 +222,27 @@ class ProductController extends Controller
         }
         
         // Set delivery option and charge (same for all items in cart)
+=======
+            }
+        }
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
         if (Session::get('takeawayOption') == "true") {
             $req['delivery_option'] = "takeaway";
         } else {
             $req['delivery_option'] = "delivery";
         }
         if (@$req['delivery_option'] == "delivery") {
+<<<<<<< HEAD
             $cart['deliverycharge'] = isset($cart['deliverychargemain']) ? $cart['deliverychargemain'] : 0;
+=======
+            $cart['deliverycharge'] = $cart['deliverychargemain'];
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
         } else {
             $cart['deliverycharge'] = 0;
             $cart['tip_amount'] = 0;
         }
         $cart['delivery_option'] = $req['delivery_option'];
+<<<<<<< HEAD
         $cart['tip_amount'] = 0;    
         /*by thm*/
         // Create unique cart item ID including variant ID to ensure different variants are stored separately
@@ -519,18 +555,33 @@ class ProductController extends Controller
         
         // Save correct pricing - each variant will have its unique ID and price
         // CRITICAL: The cart item ID MUST include variant_id to ensure uniqueness
+=======
+        $cart['tip_amount'] = 0;
+        /*by thm*/
+        if (isset($req['variant_info']) && !empty($req['variant_info']['variant_id'])) {
+            $id = $id . 'PV' . $req['variant_info']['variant_id'];
+        }
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
         $cart['item'][$vendor_id][$id] = [
             "name" => $req['name'],
             "quantity" => $req['quantity'],
             "stock_quantity" => $req['stock_quantity'],
+<<<<<<< HEAD
             "item_price" => $unit_item_price,      // unit price for THIS specific variant
             "price" => $unit_item_price,           // keep unit price here for consistency
             "dis_price" => $unit_dis_price,        // unit discount price for THIS specific variant (if any)
             "extra_price" => $unit_extra_price,    // unit extra price
+=======
+            "item_price" => $req['item_price'],
+            "price" => $req['price'],
+            "dis_price" => $req['dis_price'],
+            "extra_price" => $req['extra_price'],
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
             "extra" => @$req['extra'],
             "size" => @$req['size'],
             "image" => @$req['image'],
             "veg" => @$req['veg'],
+<<<<<<< HEAD
             "variant_info" => $variant_info_storage,  // Store variant info with correct prices
             "category_id" => @$req['category_id'],
         ];
@@ -539,6 +590,11 @@ class ProductController extends Controller
         if (isset($_ENV['APP_DEBUG']) && $_ENV['APP_DEBUG'] == 'true' && $variant_id_for_cart) {
             error_log("Cart item saved - Product: $original_id, Variant: $variant_id_for_cart, Cart ID: $id, Price: $unit_item_price");
         }
+=======
+            "variant_info" => @$req['variant_info'],
+            "category_id" => @$req['category_id'],
+        ];
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
         $cart['vendor']['id'] = @$vendor_id;
         $cart['vendor']['name'] = @$req['vendor_name'];
         $cart['vendor']['location'] = @$req['vendor_location'];
@@ -715,6 +771,7 @@ class ProductController extends Controller
             if ($value['category_id']) {
                 $category_id = $value['category_id'];
             }
+<<<<<<< HEAD
             // compute numeric values
             $quantity = floatval($quantity);
             $price_val = floatval($price);
@@ -737,10 +794,13 @@ class ProductController extends Controller
             // Determine unit extra price (assume per-unit; if your reorder payload sends total extra, divide here)
             $unit_extra_price = $extra_price_val;
 
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
             $cart['item'][$vendor_id][$id] = [
                 "name" => @$name,
                 "quantity" => @$quantity,
                 "stock_quantity" => @$stock_quantity,
+<<<<<<< HEAD
                 "item_price" => $unit_price,
                 "price" => $unit_price,
                 "extra_price" => $unit_extra_price,
@@ -749,6 +809,16 @@ class ProductController extends Controller
                 "image" => @$image,
                 "variant_info" => $variant_info,
                 "category_id" => $category_id,
+=======
+                "item_price" => @$item_price,
+                "price" => ($quantity * $price),
+                "extra_price" => ($quantity * $extra_price),
+                "extra" => @$extra,
+                "size" => @$size,
+                "image" => @$image,
+                "variant_info" => @$variant_info,
+                "category_id" => @$category_id,
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
             ];
         }
         $cart['vendor']['id'] = @$vendor_id;
@@ -807,7 +877,11 @@ class ProductController extends Controller
         $cart['decimal_degits'] = $req['decimal_degits'];
         Session::put('cart', $cart);
         Session::save();
+<<<<<<< HEAD
         $res = array('status' => true, 'html' => view('vendor.cart_item', ['cart' => $cart])->render());
+=======
+        $res = array('status' => true);
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
         echo json_encode($res);
         exit;
     }
@@ -933,7 +1007,11 @@ class ProductController extends Controller
                     $specialOfferType = $cart['specialOfferType'];
                     $specialOfferDiscountVal = $cart['specialOfferDiscountVal'];
                     if ($specialOfferType == "amount") {
+<<<<<<< HEAD
                         $specialOfferDiscount = $cart['specialOfferDiscount'];
+=======
+                        $specialOfferDiscount = $specialOfferDiscountVal;
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                     } else {
                         $specialOfferDiscount = ($total_item_price * $specialOfferDiscountVal) / 100;
                     }

@@ -158,7 +158,11 @@ return [
     //---------------------------------------NNNN---------------------------------------
     'name' => "Name",
     'next' => "Next",
+<<<<<<< HEAD
 
+=======
+    'non_veg' => "Non-veg",
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
     'new_password' => "New Password",
     //---------------------------------------OOOO---------------------------------------
     'order_accepted' => "Order Accepted",
@@ -548,6 +552,7 @@ return [
     'hourly'=>'Hourly',
     'fixed'=>'Fixed',
     'Days'=>'Days',
+<<<<<<< HEAD
     'unit'=>'Unit',
     'sq.ft'=>'Sq.ft',
     'item'=>'Item',
@@ -557,6 +562,8 @@ return [
     'year'=>'Year',
     'point'=>'Point',
     'day'=>'Day',
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
     'saturday'=>'Saturday',
     'start_Time'=>'Start Time',
     'end_Time'=>'End Time',

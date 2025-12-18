@@ -897,7 +897,10 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                                 var variant_id = uniqid();
                                 var variant_sku = variant;
                                 var variant_price = $('#price_' + variant).val();
+<<<<<<< HEAD
                                 var variant_dis_price = $('#discount_' + variant).val();
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                                 var variant_quantity = $('#qty_' + variant).val();
                                 var variant_image = $('#variant_' + variant + '_url').val();
                                 // Validation for variant_price
@@ -913,7 +916,10 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                                     'variant_id': variant_id,
                                     'variant_sku': variant_sku,
                                     'variant_price': variant_price,
+<<<<<<< HEAD
                                     'variant_dis_price': variant_dis_price,
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                                     'variant_quantity': variant_quantity,
                                     'variant_image': variant_image
                                 });
@@ -1382,7 +1388,10 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                     html += '<tr>';
                     html += '<th class="text-center"><span class="control-label">Variant</span></th>';
                     html += '<th class="text-center"><span class="control-label">Variant Price</span></th>';
+<<<<<<< HEAD
                     html += '<th class="text-center"><span class="control-label">Variant Discount Price</span></th>';
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                     html += '<th class="text-center"><span class="control-label">Variant Quantity</span></th>';
                     html += '<th class="text-center"><span class="control-label">Variant Image</span></th>';
                     html += '</tr>';
@@ -1391,7 +1400,10 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                     $.each(variants, function (index, variant) {
 
                         var variant_price = 1;
+<<<<<<< HEAD
                         var variant_dis_price = 0;
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                         var variant_qty = 1;
                         var variant_image = variant_image_url = '';
                         if (item_attributeX) {
@@ -1402,7 +1414,10 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                             });
                             if (variant_info[0]) {
                                 variant_price = variant_info[0].variant_price;
+<<<<<<< HEAD
                                 variant_dis_price = variant_info[0].variant_dis_price || 0;
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                                 variant_qty = variant_info[0].variant_quantity;
                                 if (variant_info[0].variant_image) {
                                     variant_image = '<img class="rounded" style="width:50px" src="' + variant_info[0].variant_image + '" alt="image" onerror="this.onerror=null;this.src=\'' + placeholderImage + '\'"><i class="mdi mdi-delete" data-variant="' + variant + '"></i>';
@@ -1417,9 +1432,12 @@ var subcategory_category_id = $('#item_subcategory').find('option:selected').att
                         html += '<input type="number" id="price_' + variant + '" value="' + variant_price + '" min="0" class="form-control">';
                         html += '</td>';
                         html += '<td>';
+<<<<<<< HEAD
                         html += '<input type="number" id="discount_' + variant + '" value="' + variant_dis_price + '" min="0" class="form-control" placeholder="0">';
                         html += '</td>';
                         html += '<td>';
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                         html += '<input type="number" id="qty_' + variant + '" value="' + variant_qty + '" min="-1" class="form-control">';
                         html += '</td>';
                         html += '<td>';

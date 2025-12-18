@@ -568,8 +568,11 @@ return [
 
     'non_veg' => "Non-veg",
 
+<<<<<<< HEAD
     'pure_veg' => "Pure veg",
 
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
     'notification' => "Notification",
 
     'notifications' => "Notifications",

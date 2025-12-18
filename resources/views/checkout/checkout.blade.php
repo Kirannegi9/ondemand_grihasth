@@ -3,6 +3,7 @@
 @include('layouts.header')
 
 @php
+<<<<<<< HEAD
     $countriesJs = [];
     $tzFile = public_path('tz-cities-to-countries.json');
 
@@ -17,6 +18,19 @@
         $cityToCountry = [];
         $countriesJs = [];
     }
+=======
+
+    $cityToCountry = file_get_contents(asset('tz-cities-to-countries.json'));
+
+    $cityToCountry = json_decode($cityToCountry, true);
+
+    $countriesJs = [];
+
+    foreach ($cityToCountry as $key => $value) {
+        $countriesJs[$key] = $value;
+    }
+
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
 @endphp
 
 <div class="siddhi-checkout">
@@ -3273,6 +3287,7 @@
                 $('#scheduled-order-notification').show();
             }
         });
+<<<<<<< HEAD
 
 
        
@@ -3325,4 +3340,6 @@ $(document).ready(function(){
 });
 
 
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
     </script>

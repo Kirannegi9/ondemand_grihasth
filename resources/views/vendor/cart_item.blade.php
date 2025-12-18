@@ -18,6 +18,7 @@ foreach ($cart['item'] as $key => $value_vendor) {
     <h6 class="pb-3">{{trans('lang.item')}}</h6>
     <input type="hidden" name="main_vendor_id" value="<?php echo @$key; ?>" id="main_vendor_id">
         <?php foreach ($value_vendor as $key1 => $value_item) { ?>
+<<<<<<< HEAD
             <?php
 // Normalize variant_info so code below can safely access keys like variant_price, variant_dis_price, variant_qty
 if (isset($value_item['variant_info']) && $value_item['variant_info'] !== null && $value_item['variant_info'] !== '') {
@@ -43,6 +44,8 @@ if (isset($value_item['variant_info']) && $value_item['variant_info'] !== null &
 }
 ?>
 
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
     <div class="product-item gold-members row align-items-center py-2 border mb-2 rounded-lg m-0"
          id="item_<?php echo @$key1; ?>" data-id="<?php echo @$key1; ?>">
         <input type="hidden" id="price_<?php echo @$key1; ?>"
@@ -156,6 +159,7 @@ if (isset($value_item['variant_info']) && $value_item['variant_info'] !== null &
                 <span class="currency-symbol-left"></span>
                 <span class="cart_iteam_total_<?php echo $key1; ?>">
                     <?php 
+<<<<<<< HEAD
                     // CRITICAL: Always prioritize variant-specific price from variant_info
                     // This ensures each variant shows its correct price, not the base product price
                     $itemPriceToUse = 0;
@@ -206,6 +210,28 @@ if (isset($value_item['variant_info']) && $value_item['variant_info'] !== null &
                     else {
                         $itemPriceToUse = floatval($value_item['price']) * floatval($value_item['quantity']);
                         $displayPrice = $itemPriceToUse;
+=======
+                    // Use variant discount price if available, otherwise use regular price
+                    $itemPriceToUse = @floatval($value_item['price']);
+                    $displayPrice = $itemPriceToUse;
+                    $displayOriginalPrice = '';
+                    
+                    // Check if variant has discount price
+                    if (isset($value_item['variant_info']['variant_dis_price']) && 
+                        $value_item['variant_info']['variant_dis_price'] !== '' && 
+                        $value_item['variant_info']['variant_dis_price'] !== '0') {
+                        $itemPriceToUse = floatval($value_item['variant_info']['variant_dis_price']) * floatval($value_item['quantity']);
+                        $displayPrice = floatval($value_item['variant_info']['variant_dis_price']) * floatval($value_item['quantity']);
+                        $displayOriginalPrice = floatval($value_item['variant_info']['variant_price']) * floatval($value_item['quantity']);
+                    } else if (@$value_item['dis_price'] && floatval($value_item['dis_price']) > 0) {
+                        // Use product discount price if variant discount not available
+                        $itemPriceToUse = floatval($value_item['dis_price']) * floatval($value_item['quantity']);
+                        $displayPrice = floatval($value_item['dis_price']) * floatval($value_item['quantity']);
+                        $displayOriginalPrice = floatval($value_item['item_price']) * floatval($value_item['quantity']);
+                    } else {
+                        $itemPriceToUse = floatval($value_item['price']);
+                        $displayPrice = floatval($value_item['price']);
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
                     }
                     
                     $totalItemPrice = $itemPriceToUse + (@floatval($value_item['extra_price']) * @floatval($value_item['quantity']));
@@ -231,6 +257,7 @@ if (isset($value_item['variant_info']) && $value_item['variant_info'] !== null &
                     class="fa fa-times"></i></div>
     </div>
         <?php 
+<<<<<<< HEAD
         // Calculate price for total - ALWAYS prioritize variant-specific price from variant_info
         // This ensures totals are calculated correctly for each variant
         $itemPriceForTotal = 0;
@@ -264,6 +291,18 @@ if (isset($value_item['variant_info']) && $value_item['variant_info'] !== null &
         // Priority 4: Fallback to stored price (should only happen for non-variant products)
         else {
             $itemPriceForTotal = floatval($value_item['price']) * floatval($value_item['quantity']);
+=======
+        // Calculate price for total - use variant discount if available
+        $itemPriceForTotal = floatval($value_item['price']);
+        if (isset($value_item['variant_info']['variant_dis_price']) && 
+            $value_item['variant_info']['variant_dis_price'] !== '' && 
+            $value_item['variant_info']['variant_dis_price'] !== '0') {
+            $itemPriceForTotal = floatval($value_item['variant_info']['variant_dis_price']) * floatval($value_item['quantity']);
+        } else if (@$value_item['dis_price'] && floatval($value_item['dis_price']) > 0) {
+            $itemPriceForTotal = floatval($value_item['dis_price']) * floatval($value_item['quantity']);
+        } else {
+            $itemPriceForTotal = floatval($value_item['price']);
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
         }
         $total_price = $total_price + ($itemPriceForTotal + (@floatval($value_item['extra_price']) * @floatval($value_item['quantity'])));
     } ?>
@@ -593,6 +632,7 @@ if (@$cart['tip_amount']) {
             </span>
             <span class="currency-symbol-right"></span>
         </p>
+<<<<<<< HEAD
     </h6>@include('layouts.app')
 
 @include('layouts.header')
@@ -3922,6 +3962,9 @@ $(document).ready(function(){
 
     </script>
 
+=======
+    </h6>
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
 </div>
 <div class="p-3">
     <?php
@@ -3939,6 +3982,7 @@ $(document).ready(function(){
                 class="currency-symbol-left"></span><?php echo $total; ?><span class="currency-symbol-right"></span><i
                 class="feather-arrow-right"></i></a>
     <?php } ?>
+<<<<<<< HEAD
 </div>
 
 
@@ -4019,3 +4063,6 @@ $(document).ready(function(){
     });
 })();
 </script>
+=======
+</div>
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063

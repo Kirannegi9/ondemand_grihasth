@@ -13,9 +13,12 @@ use App\Models\VendorUsers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Log;
 
 
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
 
 use Razorpay\Api\Api;
 
@@ -74,6 +77,7 @@ class CheckoutController extends Controller
      */
 
     public function checkout()
+<<<<<<< HEAD
 {
     Log::info('Checkout started');
 
@@ -206,6 +210,87 @@ class CheckoutController extends Controller
 }
 
 
+=======
+
+    {
+
+        $email = Auth::user()->email;
+
+        $user = VendorUsers::where('email', $email)->first();
+
+        $cart = Session::get('cart', []);
+
+        if (Session::get('takeawayOption') == "true") {
+
+        } else {
+
+            $deliveryChargemain = @$_COOKIE['deliveryChargemain'];
+
+            $address_lat = @$_COOKIE['address_lat'];
+
+            $address_lng = @$_COOKIE['address_lng'];
+
+            $vendor_latitude = @$_COOKIE['vendor_latitude'];
+
+            $vendor_longitude = @$_COOKIE['vendor_longitude'];
+
+            if (isset($_COOKIE['service_type']) && $_COOKIE['service_type'] == "Ecommerce Service" && isset($_COOKIE['ecommerce_delivery_charge'])) {
+
+                $cart['deliverychargemain'] = $_COOKIE['ecommerce_delivery_charge'];
+
+                $cart['deliverykm'] = '';
+
+            } else {
+
+                if (@$deliveryChargemain && @$address_lat && @$address_lng && @$vendor_latitude && @$vendor_longitude) {
+
+                    $deliveryChargemain = json_decode($deliveryChargemain);
+
+                    if (!empty($deliveryChargemain)) {
+                        if (! empty($cart['distanceType'])) {
+                            $distanceType = $cart['distanceType'];
+                        } else {
+                            $distanceType = 'Km';
+                        }
+                        $delivery_charges_per_km = $deliveryChargemain->delivery_charges_per_km;
+
+                        $minimum_delivery_charges = $deliveryChargemain->minimum_delivery_charges;
+
+                        $minimum_delivery_charges_within_km = $deliveryChargemain->minimum_delivery_charges_within_km;
+
+                        $kmradius = $this->distance($address_lat, $address_lng, $vendor_latitude, $vendor_longitude, $distanceType);
+
+                        if ($minimum_delivery_charges_within_km > $kmradius) {
+
+                            $cart['deliverychargemain'] = $minimum_delivery_charges;
+
+                        } else {
+
+                            $cart['deliverychargemain'] = round(($kmradius * $delivery_charges_per_km), 2);
+
+                        }
+
+                        $cart['deliverykm'] = $kmradius;
+
+                    }
+
+                }
+
+            }
+
+            $cart['deliverycharge'] = @$cart['deliverychargemain'];
+
+            Session::put('cart', $cart);
+
+            Session::save();
+
+        }
+
+        return view('checkout.checkout', ['is_checkout' => 1, 'cart' => $cart, 'id' => $user->uuid]);
+
+    }
+
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
 
 
     /**

@@ -109,7 +109,10 @@
             </div>
         </div>
     @endif
+<<<<<<< HEAD
     
+=======
+>>>>>>> e0b6ff563aa38bef9788d8a4c8a5a6c58744c063
     @if(@$ondemand_cart['price_unit']!='Hourly')
         <div class="bg-white px-3 clearfix">
             <div class="border-bottom pb-3">
