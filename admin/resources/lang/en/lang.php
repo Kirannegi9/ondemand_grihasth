@@ -1180,7 +1180,7 @@ return [
 
     'tip_amount' => 'Tip Amount',
 
-    'know_your_cordinates' => '*  Do not Know your cordinates ? use',
+    'know_your_cordinates' => '*  Do not Know your cordinates',
 
     'latitude_and_longitude_finder' => 'Latitude and Longitude Finder',
 

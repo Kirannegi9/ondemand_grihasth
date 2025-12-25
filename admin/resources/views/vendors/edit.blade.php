@@ -99,13 +99,86 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row width-100">
-                                    <div class="col-12">
-                                        <h6>* Don't Know your cordinates ? use <a target="_blank"
-                                                href="https://www.latlong.net/">Latitude
-                                                and Longitude Finder</a></h6>
-                                    </div>
-                                </div>
+                                 <div class="form-group row width-100">
+                                            <div class="col-12">
+                                                <h6 style="line-height:1.6;">
+                                                    {{ trans('lang.know_your_cordinates') }} ?
+                                                    <br>
+
+                                                    <a href="javascript:void(0)"
+                                                    onclick="detectVendorLocation()"
+                                                    style="color:#007bff;font-weight:600;">
+                                                        📍 Use My Current Location
+                                                    </a>
+
+                                                    <span style="margin:0 6px; font-weight:500;">OR</span>
+
+                                                    <a target="_blank"
+                                                    href="https://www.latlong.net/"
+                                                    style="color:#007bff;font-weight:600;">
+                                                        {{ trans('lang.latitude_and_longitude_finder') }}
+                                                    </a>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <script>
+                                                function detectVendorLocation() {
+
+                                                    if (!navigator.geolocation) {
+                                                        alert("Geolocation is not supported by this browser");
+                                                        return;
+                                                    }
+
+                                                    // Optional: show loading text
+                                                    $(".vendor_address").val("Detecting your location...");
+
+                                                    navigator.geolocation.getCurrentPosition(
+                                                        function (position) {
+
+                                                            let lat = position.coords.latitude;
+                                                            let lng = position.coords.longitude;
+
+                                                            // Fill latitude & longitude
+                                                            $(".vendor_latitude").val(lat);
+                                                            $(".vendor_longitude").val(lng);
+
+                                                            // FREE reverse geocoding (OpenStreetMap)
+                                                            fetch(
+                                                                `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
+                                                                {
+                                                                    headers: {
+                                                                        'Accept': 'application/json',
+                                                                        'User-Agent': 'VendorPanel/1.0'
+                                                                    }
+                                                                }
+                                                            )
+                                                            .then(res => res.json())
+                                                            .then(data => {
+                                                                if (data && data.display_name) {
+                                                                    $(".vendor_address").val(data.display_name);
+                                                                } else {
+                                                                    $(".vendor_address").val("");
+                                                                    alert("Unable to detect address");
+                                                                }
+                                                            })
+                                                            .catch(() => {
+                                                                $(".vendor_address").val("");
+                                                                alert("Address lookup failed");
+                                                            });
+                                                        },
+                                                        function (error) {
+                                                            $(".vendor_address").val("");
+                                                            alert("Location permission denied");
+                                                        },
+                                                        {
+                                                            enableHighAccuracy: true,
+                                                            timeout: 10000
+                                                        }
+                                                    );
+                                                }
+                                                </script>
 
                                 <div class="form-group row width-50">
                                     <label class="col-3 control-label">{{trans('lang.vendor_latitude')}}</label>

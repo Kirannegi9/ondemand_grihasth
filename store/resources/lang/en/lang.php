@@ -459,7 +459,7 @@ return [
     'category' => 'Category',
     'order_date' => 'Order Date',
     'select_store_category' => 'Select Store Category',
-    'know_your_cordinates' => "* Don't Know your cordinates ? use",
+    'know_your_cordinates' => "* Don't Know your cordinates ",
     'latitude_and_longitude_finder' => 'Latitude and Longitude Finder',
     'already_an_account' => "Already an account?",
     'sign_in' => "Sign In",
@@ -662,7 +662,7 @@ return [
     'items_will_visible_to_customer'=>'items will be visible to customer',
     'mystore_plural'=>"My Store",
     'no_subscription_plan_is_created_contact_to_admin' => 'There is no subscription plan available for this section right now.please contact to admin for more information.',
-
+    'or'=>'or',
 
 ];
 ?>
