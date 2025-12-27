@@ -196,7 +196,7 @@ foreach ($countries as $keycountry => $valuecountry) {
                         <div class="col-xs-12">
                             <select name="country" id="country_selector">
                                 <?php foreach ($newcountries as $keycy => $valuecy) { ?>
-                                    <?php $selected = ""; ?>
+                                    <?php $selected = ($keycy == "91") ? "selected" : ""; ?>
                                     <option <?php echo $selected; ?> code="<?php echo $valuecy->code; ?>"
                                                                      value="<?php echo $keycy; ?>">
                                         +<?php echo $valuecy->phoneCode; ?> {{$valuecy->countryName}}</option>
@@ -503,6 +503,7 @@ foreach ($countries as $keycountry => $valuecountry) {
             placeholder: "Select Country",
             allowClear: true
         });
+        jQuery("#country_selector").val("91").trigger('change');
 
     });
     var ref = database.collection('settings').doc("globalSettings");
