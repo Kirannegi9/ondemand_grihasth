@@ -463,7 +463,21 @@
                     append_list.innerHTML = html;
 
                     // Don't auto-select the first category - let user click
+<<<<<<< HEAD
 
+=======
+                    if (cats.length > 0) {
+                        // If Firestore flag is true → auto load subcategories
+                        if (window.showSubcategoriesByDefault === true) {
+                            let firstCategoryId = cats[0].id;
+                            getSubcategories(firstCategoryId);
+                        }
+                        // ELSE → load products normally (old behavior)
+                        else {
+                            getProductsOriginal(cats[0].id);
+                        }
+                    }
+>>>>>>> 8e6ffb0c (fix the issue of product display in category)
                 }
 
             }
@@ -1012,6 +1026,13 @@
             }
 
             $("#vendor_title").append(vendorDetails.title);
+<<<<<<< HEAD
+=======
+            // Store vendor setting globally (for subcategory auto-load)
+            window.showSubcategoriesByDefault =
+                vendorDetails.showSubcategoriesByDefault === true;
+
+>>>>>>> 8e6ffb0c (fix the issue of product display in category)
 
             $("#vendor_address").append(vendorDetails.location);
 
