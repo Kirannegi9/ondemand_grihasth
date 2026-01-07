@@ -135,17 +135,32 @@ foreach ($countries as $keycountry => $valuecountry) {
                             </span>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <input id="password" placeholder="{{ __('Password') }}" type="password"
-                                   class="form-control @error('password') is-invalid @enderror" name="password" required
-                                   autocomplete="current-password"></div>
-                        @error('password')
-                        <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                        @enderror
-                    </div>
+    
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <div class="password-wrapper">
+                                    <input id="password"
+                                        type="password"
+                                        name="password"
+                                        placeholder="{{ __('Password') }}"
+                                        class="form-control @error('password') is-invalid @enderror"
+                                        autocomplete="current-password"
+                                        required>
+
+                                    <span class="password-toggle" data-target="#password">
+                                        Show
+                                    </span>
+                                </div>
+                            </div>
+
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+
                     <div class="forgot-password">
                         <p><a href="{{url('forgot-password')}}" class="standard-link"
                               target="_blank">{{trans('lang.forgot_password')}}?</a></p>
@@ -543,5 +558,24 @@ foreach ($countries as $keycountry => $valuecountry) {
 </script>
 
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".password-toggle").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            const input = document.querySelector(this.dataset.target);
+            if (!input) return;
+
+            if (input.type === "password") {
+                input.type = "text";
+                this.innerText = "Hide";
+            } else {
+                input.type = "password";
+                this.innerText = "Show";
+            }
+        });
+    });
+});
+</script>
+
 
 </html>

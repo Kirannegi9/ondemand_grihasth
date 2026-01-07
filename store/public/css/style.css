@@ -1,4 +1,4 @@
-/*
+    /*
 
 Template Name: Admin Press Admin
 
@@ -27253,4 +27253,29 @@ a {
 
     border-color: #FF6839
 
+}
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 65px !important;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6c757d !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: #495057 !important;
 }

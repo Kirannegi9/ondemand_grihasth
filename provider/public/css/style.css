@@ -4395,7 +4395,7 @@ table.dataTable thead .sorting:after {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    *cursor: hand;
+    cursor: hand;
     color: #67757c;
     border: 1px solid #ddd;
 }
@@ -12504,4 +12504,29 @@ font-size: 12px;color: #fff;cursor: pointer;line-height: 1;width: 25px;height: 2
     .non-printable {
         display: none; /* Hide elements with class "no-print" */
     }
+}
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 65px !important;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6c757d !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: #495057 !important;
 }

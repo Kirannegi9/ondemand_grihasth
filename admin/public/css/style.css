@@ -11574,4 +11574,25 @@ i.fa-info {
      border: 0;
      padding: 12px 35px;
 }
- 
+ .password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #6c757d !important;   /* ALWAYS visible grey */
+    opacity: 1 !important;       /* force visibility */
+    visibility: visible !important;
+
+    z-index: 10;
+    user-select: none;
+}
+
+.password-toggle:hover {
+    color: #495057 !important;   /* slightly darker on hover */
+}
+
