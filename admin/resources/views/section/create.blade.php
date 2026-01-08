@@ -623,7 +623,7 @@
 
                     window.scrollTo(0, 0);
 
-                } else if (isNaN(vendor_nearby_radius)) {
+                } else if (service_type === "Ecommerce Service" && isNaN(vendor_nearby_radius)) {
 
                     $(".error_top").show();
 
@@ -677,11 +677,18 @@
                             if (service_type == 'Multivendor Delivery Service' ||
                                 service_type == 'On Demand Service' || service_type ==
                                 'Ecommerce Service') {
-                                await addCommissionModel(id_section).then(function(result){
-                                    window.location.href = '{{ route('section') }}';
+                                await addCommissionModel(id_section);
+                                }
+                                
+                                // ✅ ALWAYS redirect after successful save
+                                alert("Section created successfully");
+                                window.location.href = '{{ route('section') }}';
+                            }).catch(function(error) {
+                                
+                                $(".error_top").show();
+                                $(".error_top").html("<p>" + error.message + "</p>");
+                                window.scrollTo(0, 0);
 
-                                })
-                            }
                             
                         });
 
