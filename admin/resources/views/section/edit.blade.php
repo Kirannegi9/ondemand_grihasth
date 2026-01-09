@@ -788,7 +788,7 @@
 
                 window.scrollTo(0, 0);
 
-            } else if (isNaN(vendor_nearby_radius)) {
+            } else if (service_type === "Ecommerce Service" && isNaN(vendor_nearby_radius)) {
 
                 $(".error_top").show();
 
